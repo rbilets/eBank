@@ -1,0 +1,51 @@
+TESTING TRANSACTIONS
+
+_______________________GET_______________________
+Get all transactions for admin
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/transactions/
+
+Get first transaction for admin
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/transactions/1
+
+Get all transactions for user Maddie Repka
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/transactions/db6046fc-d128-4ddc-ba86-559f9cdb8664
+
+Get all transaction for user maddie, ACCESS APPROVED
+curl -u maddie:repka -i -X GET http://127.0.0.1:5000/transactions/
+
+Get first transaction for user maddie, ACCESS DENIED
+curl -u maddie:repka -i -X GET http://127.0.0.1:5000/transactions/1
+
+Get all transaction for user sheva123, ACCESS DENIED
+curl -u maddie:repka -i -X GET http://127.0.0.1:5000/transactions/96a52090-b0fb-49e7-ad80-fa11ca800f28
+
+Get all transaction for user maddie, ACCESS DENIED
+curl -u maddie:repka -i -X GET http://127.0.0.1:5000/transactions/a37246d3-48dc-4d91-94e3-91acf2644fda
+
+_______________________POST_______________________
+Making transaction from someone else wallet, ACCESS DENIED
+curl -u user2:user2 --location --request POST 'http://127.0.0.1:5000/transactions' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "amount": 900,
+    "from_wallet_id": "2497-5958-7472-2671",
+    "to_wallet_id": "3733-0916-4025-5415"
+}'
+
+ADMIN, making transaction from someone else wallet, ACCESS APPROVED
+curl -u romek_05:roman123 --location --request POST 'http://127.0.0.1:5000/transactions' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "amount": 400,
+    "from_wallet_id": "6598-4264-7043-8769",
+    "to_wallet_id": "3143-7655-4981-4952"
+}'
+
+Making transaction from personal wallet, ACCESS APPROVED
+curl -u maddie:repka --location --request POST 'http://127.0.0.1:5000/transactions' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "amount": 1200,
+    "from_wallet_id": "3143-7655-4981-4952",
+    "to_wallet_id": "9105-7246-7578-6592"
+}'

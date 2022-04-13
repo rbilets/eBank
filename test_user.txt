@@ -1,0 +1,129 @@
+TESTING REGISTER
+
+curl --location --request POST 'http://127.0.0.1:5000/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "user4@gmail.com",
+    "username": "user4",
+    "password": "user4",
+    "first_name": "user4",
+    "last_name": "four"
+}'
+
+
+TESTING LOGIN
+curl -u romek_05:roman12 -i -X GET http://127.0.0.1:5000/login/
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/login/
+
+TESTING USERS
+
+_______________________GET_______________________
+Unauthorized Access, user vasyl does not exist
+curl -u vasyl:vasyl -i -X GET http://127.0.0.1:5000/users/
+
+Access denied for sheva123
+curl -u sheva123:andriy123 -i -X GET http://127.0.0.1:5000/users/romek_05
+
+Access approved for admin
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/users/
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/users/sheva123
+
+Access approved for user
+curl -u sheva123:andriy123 -i -X GET http://127.0.0.1:5000/users/
+curl -u sheva123:andriy123 -i -X GET http://127.0.0.1:5000/users/sheva123
+
+# _______________________POST_______________________
+Access denied for user
+curl -u sheva123:andriy123 --location --request POST 'http://127.0.0.1:5000/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "petro_repka@gmail.com",
+    "username": "petro",
+    "password": "magsig",
+    "first_name": "Maddie",
+    "last_name": "Repka"
+}'
+
+Access approved for admin
+curl -u romek_05:roman123 --location --request POST 'http://127.0.0.1:5000/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "petro_repka@gmail.com",
+    "username": "petro",
+    "password": "magsig",
+    "first_name": "Maddie",
+    "last_name": "Repka"
+}'
+
+
+# _______________________PUT_______________________
+Updating password for user, ACCESS DENIED
+curl -u maddie:repka --location --request PUT 'http://127.0.0.1:5000/users/romek_05' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "maddie_repka@gmail.com",
+    "username": "maddie",
+    "password": "madeline",
+    "first_name": "Maddie",
+    "last_name": "Rep"
+}'
+
+Updating password for user, ACCESS APPROVED
+curl -u maddie:repka --location --request PUT 'http://127.0.0.1:5000/users/maddie' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "maddie_repka@gmail.com",
+    "username": "maddie",
+    "password": "madeline",
+    "first_name": "Maddie",
+    "last_name": "Rep"
+}'
+
+Updating password for admin, ACCESS APPROVED
+curl -u romek_05:roman123 --location --request PUT 'http://127.0.0.1:5000/users/maddie' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "maddie_repka@gmail.com",
+    "username": "maddie",
+    "password": "repka",
+    "first_name": "Maddie",
+    "last_name": "Rep"
+}'
+
+# _______________________PATCH_______________________
+Updating password for user, ACCESS DENIED
+curl -u user1:user2 --location --request PATCH 'http://127.0.0.1:5000/users/user1' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "first_name": "Maddie"
+}'
+
+Updating password for user, ACCESS APPROVED
+curl -u maddie:repka --location --request PATCH 'http://127.0.0.1:5000/users/maddie' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "password": "madeline"
+}'
+
+Updating password for admin, ACCESS APPROVED
+curl -u romek_05:roman123 --location --request PATCH 'http://127.0.0.1:5000/users/maddie' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "password": "repka"
+}'
+
+# _______________________DELETE_______________________
+Deleting user for user, ACCESS DENIED
+curl -u maddie:repka --location --request DELETE 'http://127.0.0.1:5000/users/romek_05' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'
+
+Deleting user for user, ACCESS APPROVED
+curl -u petro:magsig --location --request DELETE 'http://127.0.0.1:5000/users/petro' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'
+
+Deleting user for admin
+curl -u romek_05:roman123 --location --request DELETE 'http://127.0.0.1:5000/users/user1' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'

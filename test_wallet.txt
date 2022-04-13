@@ -1,0 +1,156 @@
+TESTING WALLETS
+
+_______________________GET_______________________
+Unauthorized Access, user vasyl does not exist
+curl -u vasyl:vasyl -i -X GET http://127.0.0.1:5000/wallets/
+
+Access denied for maddie because wallet belongs to romek
+curl -u maddie:repka -i -X GET http://127.0.0.1:5000/wallets/9243-0677-4649-0755
+
+Access approved for admin
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/wallets/
+curl -u romek_05:roman123 -i -X GET http://127.0.0.1:5000/wallets/9105-7246-7578-6592
+
+Access approved for user
+curl -u sheva123:andriy123 -i -X GET http://127.0.0.1:5000/wallets/
+curl -u sheva123:andriy123 -i -X GET http://127.0.0.1:5000/wallets/9105-7246-7578-6592
+curl -u maddie:repka -i -X GET http://127.0.0.1:5000/wallets
+
+
+_______________________POST_______________________
+Maddie Repka is adding wallet to user romek_05 - owner_id
+curl -u romek_05:roman123 --location --request POST 'http://127.0.0.1:5000/wallets' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Test Wallet 3",
+    "funds": 1000,
+    "owner_id": "25687324-3c84-4ffc-8797-2455ce89cf17"
+}'
+
+Maddie Repka is adding wallet for herself but funds are not 0, ACCESS DENIED
+curl -u maddie:repka --location --request POST 'http://127.0.0.1:5000/wallets' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie Wallet",
+    "funds": 2500,
+    "owner_id": "a37246d3-48dc-4d91-94e3-91acf2644fda"
+}'
+
+Maddie Repka is adding wallet for herself but funds are 0, ACCESS APPROVED
+curl -u maddie:repka --location --request POST 'http://127.0.0.1:5000/wallets' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie Wallet",
+    "funds": 0,
+    "owner_id": "a37246d3-48dc-4d91-94e3-91acf2644fda"
+}'
+
+Admin is adding wallet for Maddie Repka
+curl -u romek_05:roman123 --location --request POST 'http://127.0.0.1:5000/wallets' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Romekk",
+    "funds": 1405,
+    "owner_id": "25687324-3c84-4ffc-8797-2455ce89cf17"
+}'
+
+_______________________PUT_______________________
+Maddie Repka tries to modify not her wallet, ACCESS DENIED
+curl -u maddie:repka --location --request PUT 'http://127.0.0.1:5000/wallets/9105-7246-7578-6592' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie copilka",
+    "funds": 1000.5,
+    "owner_id": "a37246d3-48dc-4d91-94e3-91acf2644fda"
+}'
+
+Maddie Repka changes owner for her wallet, ACCESS DENIED
+curl -u maddie:repka --location --request PUT 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie copilka",
+    "funds": 0,
+    "owner_id": "f0ed181f-aa42-4946-b0cb-014a81c09c3e"
+}'
+
+Maddie Repka changes funds amount for her wallet, ACCESS DENIED
+curl -u maddie:repka --location --request PUT 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie copilka",
+    "funds": 5000,
+    "owner_id": "a37246d3-48dc-4d91-94e3-91acf2644fda"
+}'
+
+Maddie Repka changes just the name for her wallet, ACCESS APPROVED
+curl -u maddie:repka --location --request PUT 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie copilka",
+    "funds": 0.0,
+    "owner_id": "a37246d3-48dc-4d91-94e3-91acf2644fda"
+}'
+
+
+Admin changes name and funds for Maddie Repka wallet, ACCESS APPROVED
+curl -u romek_05:roman123 --location --request PUT 'http://127.0.0.1:5000/wallets/3143-7655-4981-4952' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie wallet",
+    "funds": 5000,
+    "owner_id": "a37246d3-48dc-4d91-94e3-91acf2644fda"
+}'
+
+_______________________PATCH_______________________
+Maddie Repka tries to modify not her wallet, ACCESS DENIED
+curl -u maddie:repka --location --request PATCH 'http://127.0.0.1:5000/wallets/9105-7246-7578-6592' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie copilka"
+}'
+
+Maddie Repka changes owner for her wallet, ACCESS DENIED
+curl -u maddie:repka --location --request PATCH 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "owner_id": "96a52090-b0fb-49e7-ad80-fa11ca800f28"
+}'
+
+Maddie Repka changes funds amount for her wallet, ACCESS DENIED
+curl -u maddie:repka --location --request PATCH 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "funds": 2000
+}'
+
+Maddie Repka changes just the name for her wallet, ACCESS APPROVED
+curl -u maddie:repka --location --request PATCH 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Maddie purse"
+}'
+
+
+Admin changes funds amount for Maddie Repka wallet, ACCESS APPROVED
+curl -u romek_05:roman123 --location --request PATCH 'http://127.0.0.1:5000/wallets/4444-2478-4785-8571' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "funds": 1500
+}'
+
+_______________________DELETE_______________________
+
+Maddie is trying to delete not her wallet, ACCESS DENIED
+curl -u user3:user3 --location --request DELETE 'http://127.0.0.1:5000/wallets/9800-2902-0034-2353' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'
+
+Maddie is trying to delete her wallet, ACCESS APPROVED
+curl -u maddie:repka --location --request DELETE 'http://127.0.0.1:5000/wallets/3143-7655-4981-4952' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'
+
+Admin is trying to delete Maddie wallet, ACCESS APPROVED
+curl -u romek_05:roman123 --location --request DELETE 'http://127.0.0.1:5000/wallets/5317-2567-0612-1477' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'

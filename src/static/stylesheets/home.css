@@ -1,0 +1,22 @@
+#imgHome{
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient( rgba(42, 46, 63, 0.57), rgba(32, 35, 47, 0.47)),
+    url("../images/photo4.jpg") center;
+    height: 800px;
+    background-size: cover;
+}
+.textWhite{
+    text-align: center;
+    padding: 10px 10%;
+    font-size: 30px;
+    color: white;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Optima', sans-serif; !important;
+}
+
+

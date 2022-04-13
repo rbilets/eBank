@@ -1,0 +1,37 @@
+input {
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    text-align: center;
+    margin-bottom: 27px;
+}
+
+#login {
+    min-height: 830px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginImg {
+    background: linear-gradient(rgba(32, 35, 47, 0.38), rgba(32, 35, 47, 0.59)),
+    url("../images/photo5.jpg") center;
+    background-size: cover;
+}
+
+footer {
+    margin-top: 0;
+}
+
+#login > .center {
+    background-color: #e4e3e4;
+    padding: 100px;
+    box-shadow: 3px 3px 50px #333a41;
+}
